@@ -112,7 +112,7 @@
 	            <configuration>
 	                <!-- The package of your generated sources -->
 	                <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
-	                <packageName>com.pduleba.loan.broker</packageName>
+	                <packageName>com.pduleba.loan.broker.xsd</packageName>
 	                <sources>
 	                	<source>${project.basedir}/data/xsd/CustInfo.xsd</source>
 	                	<source>${project.basedir}/data/xsd/HouseInfo.xsd</source>
@@ -120,6 +120,7 @@
 	                <encoding>${project.build.sourceEncoding}</encoding>
 	                <generateEpisode>false</generateEpisode>
 	                <quiet>true</quiet>
+	                <clearOutputDir>false</clearOutputDir>
 	            </configuration>
 	        </plugin>
 		</plugins>
