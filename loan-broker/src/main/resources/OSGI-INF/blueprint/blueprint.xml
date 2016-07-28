@@ -12,9 +12,17 @@
       <when>
         <xpath>/CustInfo[@infotype='LoanCustomer']</xpath>
         <log message="Processing customer file ${file:name}"/>
+        <unmarshal>
+          <jaxb contextPath="com.pduleba.loan.broker" partClass="com.pduleba.loan.broker.CustInfo"/>
+        </unmarshal>
+        <log message="Successful customer ${body.nationalID} unmarshaling"/>
       </when>
       <otherwise>
         <log message="Processing house file ${file:name}"/>
+        <unmarshal>
+          <jaxb contextPath="com.pduleba.loan.broker" partClass="com.pduleba.loan.broker.HouseInfo"/>
+        </unmarshal>
+        <log message="Successful house ${body.address} unmarshaling"/>
       </otherwise>
     </choice>
   </route>
