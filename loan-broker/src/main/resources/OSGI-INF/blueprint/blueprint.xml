@@ -22,9 +22,9 @@
         <unmarshal>
           <jaxb contextPath="com.pduleba.loan.broker.xsd" partClass="com.pduleba.loan.broker.xsd.HouseInfo"/>
         </unmarshal>
-        <log message="Successful house ${body.address} unmarshaling"/>
+        <log message="Successful house ${body.address} unmarshaling :: body ${body}"/>
         <bean method="process" beanType="com.pduleba.loan.broker.processor.HomeProcessor"/>
-        <log message="Processing complete with appraised value ${body.appraisedValue}"/>
+        <log message="Processing complete with appraised value ${body.appraisedValue} :: body ${body}"/>
       </otherwise>
     </choice>
   </route>
