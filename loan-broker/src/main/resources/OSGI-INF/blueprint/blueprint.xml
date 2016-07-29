@@ -5,6 +5,10 @@
        http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
+  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+      <property name="brokerURL" value="vm://localhost"/>
+  </bean>
+
 	<camelContext xmlns="http://camel.apache.org/schema/blueprint">
   <route id="demoRoute">
     <from uri="file://data/datafile"/>
@@ -16,6 +20,7 @@
           <jaxb contextPath="com.pduleba.loan.broker.xsd" partClass="com.pduleba.loan.broker.xsd.CustInfo"/>
         </unmarshal>
         <log message="Successful customer ${body.nationalID} unmarshaling"/>
+        <to uri="activemq:queue:customer"/>
       </when>
       <otherwise>
         <log message="Processing house file ${file:name}"/>
@@ -25,6 +30,7 @@
         <log message="Successful house ${body.address} unmarshaling :: body ${body}"/>
         <bean method="process" beanType="com.pduleba.loan.broker.processor.HomeProcessor"/>
         <log message="Processing complete with appraised value ${body.appraisedValue} :: body ${body}"/>
+        <to uri="activemq:queue:house"/>
       </otherwise>
     </choice>
   </route>
