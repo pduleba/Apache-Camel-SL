@@ -9,7 +9,7 @@
       <property name="brokerURL" value="vm://localhost"/>
   </bean>
 
-	<camelContext xmlns="http://camel.apache.org/schema/blueprint">
+	<camelContext id="DemoRoute" xmlns="http://camel.apache.org/schema/blueprint">
   <route id="demoRoute">
     <from uri="file://data/datafile"/>
     <choice>
