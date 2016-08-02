@@ -41,8 +41,8 @@
       <simple>${body.occupation}</simple>
     </setHeader>
     <log message="DATA :: NationalID = ${body.nationalID} # FirstName = ${body.firstName} # LastName = ${body.lastName} # Age = ${body.age} # Occupation = ${body.occupation}"/>
-    <log message="SQL :: {{sql.insertCustInfo}}"/>
     <to uri="sql:delete from demo.CustInfo where nationalID = :#custNationalID; INSERT INTO demo.CustInfo (nationalID, firstName, lastName, age, occupation) values (:#custNationalID, :#firstName, :#lastName, :#age, :#occupation);" id="mysql:insertCustInfo"/>
+    <log message="Data inserted into DB"/>
   </route>
 </camelContext>
 
