@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+	xmlns:camel="http://camel.apache.org/schema/blueprint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
+       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+
+	<camelContext trace="false" id="HouseInfoContext" xmlns="http://camel.apache.org/schema/blueprint">
+  <propertyPlaceholder location="classpath:sql.properties,google.properties" id="properties"/>
+  <dataFormats>
+    <json library="Jackson" id="jack"/>
+  </dataFormats>
+  <route id="SchoolRoute">
+    <from uri="direct:schoolstart"/>
+    <setHeader headerName="CamelmyHouseInfo">
+      <simple>${body}</simple>
+    </setHeader>
+    <bean method="processAddress(${headers.CamelmyHouseInfo})" beanType="com.pduleba.loan.broker.processor.HouseInfoProcessor"/>
+    <recipientList streaming="true">
+      <simple>https4://maps.googleapis.com/maps/api/geocode/json?address=${body}&amp;amp;sensor=false&amp;amp;key={{googlekey}}</simple>
+    </recipientList>
+    <unmarshal ref="jack"/>
+    <bean method="updateQuoteWithSchools(${headers.CamelmyHouseInfo}, ${body})" beanType="com.pduleba.loan.broker.processor.HouseInfoProcessor"/>
+    <log message="Geo locations : lat and lng are ${body}"/>
+  </route>
+  <route id="HouseInfoRoute">
+    <from uri="activemq:queue:house"/>
+    <unmarshal>
+      <jaxb contextPath="com.pduleba.loan.broker.xsd" prettyPrint="true" partClass="com.pduleba.loan.broker.xsd.HouseInfo"/>
+    </unmarshal>
+    <to uri="direct:schoolstart"/>
+  </route>
+</camelContext>
+
+</blueprint>

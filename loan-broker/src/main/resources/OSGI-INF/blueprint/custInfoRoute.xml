@@ -18,9 +18,9 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-	<camelContext trace="false" id="CustInfoRoute" xmlns="http://camel.apache.org/schema/blueprint">
+	<camelContext trace="false" id="CustInfoContext" xmlns="http://camel.apache.org/schema/blueprint">
   <propertyPlaceholder location="classpath:sql.properties" id="properties"/>
-  <route id="custInfoRoute">
+  <route id="CustInfoRoute">
     <from uri="activemq:queue:customer"/>
     <unmarshal>
       <jaxb contextPath="com.pduleba.loan.broker.xsd" partClass="com.pduleba.loan.broker.xsd.CustInfo"/>

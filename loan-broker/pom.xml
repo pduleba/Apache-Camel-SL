@@ -3,14 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>com.pduleba</groupId>
 	<artifactId>loan-broker</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>bundle</packaging>
-	
+
 	<name>Camel Blueprint Route</name>
-	
+
 	<properties>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -28,14 +28,14 @@
 			<artifactId>camel-blueprint</artifactId>
 			<version>2.15.1.redhat-621084</version>
 		</dependency>
-		
+
 		<!-- JAXB -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jaxb</artifactId>
 			<version>2.15.1.redhat-621084</version>
 		</dependency>
-		
+
 		<!-- ActiveMQ -->
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
@@ -47,7 +47,19 @@
 			<artifactId>activemq-kahadb-store</artifactId>
 			<version>5.11.0.redhat-621084</version>
 		</dependency>
-		
+
+		<!-- REST -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jackson</artifactId>
+			<version>2.15.1.redhat-621084</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http4</artifactId>
+			<version>2.15.1.redhat-621084</version>
+		</dependency>
+
 		<!-- DataSource -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>
@@ -63,15 +75,15 @@
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
 			<version>1.4</version>
-            <scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
-		    <groupId>mysql</groupId>
-		    <artifactId>mysql-connector-java</artifactId>
-		    <version>5.1.39</version>
-            <scope>provided</scope>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.39</version>
+			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -88,7 +100,7 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
-		
+
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.apache.camel</groupId>

@@ -9,8 +9,8 @@
       <property name="brokerURL" value="vm://localhost"/>
   </bean>
 
-	<camelContext id="DemoRoute" xmlns="http://camel.apache.org/schema/blueprint">
-  <route id="demoRoute">
+	<camelContext id="BlueprintContext" xmlns="http://camel.apache.org/schema/blueprint">
+  <route id="BlueprintRoute">
     <from uri="file://data/datafile"/>
     <choice>
       <when>
