@@ -14,12 +14,12 @@
     <setHeader headerName="CamelmyHouseInfo">
       <simple>${body}</simple>
     </setHeader>
-    <bean method="processAddress(${headers.CamelmyHouseInfo})" beanType="com.pduleba.loan.broker.processor.HouseInfoProcessor"/>
+    <bean method="processAddress" beanType="com.pduleba.loan.broker.processor.HouseInfoProcessor"/>
     <recipientList streaming="true">
       <simple>https4://maps.googleapis.com/maps/api/geocode/json?address=${body}&amp;amp;sensor=false&amp;amp;key={{googlekey}}</simple>
     </recipientList>
     <unmarshal ref="jack"/>
-    <bean method="updateQuoteWithSchools(${headers.CamelmyHouseInfo}, ${body})" beanType="com.pduleba.loan.broker.processor.HouseInfoProcessor"/>
+    <bean method="findGeoLocation" beanType="com.pduleba.loan.broker.processor.HouseInfoProcessor"/>
     <log message="Geo locations : lat and lng are ${body}"/>
   </route>
   <route id="HouseInfoRoute">
