@@ -18,6 +18,26 @@
     <log message="Nuumber of schools found :: ${body}"/>
     <bean method="updateNumberOfSchools(${headers.CamelmyHouseInfo}, ${body})" beanType="com.pduleba.loan.broker.processor.HomeProcessor"/>
     <log message="HouseInfo after update :: ${body}"/>
+    <setHeader headerName="houseNationalID">
+      <simple>${body.nationalID}</simple>
+    </setHeader>
+    <setHeader headerName="address">
+      <simple>${body.address}</simple>
+    </setHeader>
+    <setHeader headerName="bedroom">
+      <simple>${body.bedroom}</simple>
+    </setHeader>
+    <setHeader headerName="bathroom">
+      <simple>${body.bathroom}</simple>
+    </setHeader>
+    <setHeader headerName="landSize">
+      <simple>${body.landSize}</simple>
+    </setHeader>
+    <setHeader headerName="appraisedValue">
+      <simple>${body.appraisedValue}</simple>
+    </setHeader>
+    <to uri="sql:{{sql.insertHouseInfo}}"/>
+    <log message="House Info insterted :: ${body}"/>
   </route>
   <route id="SchoolRoute">
     <from uri="direct:schoolstart"/>
