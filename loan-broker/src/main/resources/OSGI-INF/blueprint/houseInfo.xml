@@ -9,6 +9,16 @@
   <dataFormats>
     <json library="Jackson" id="jack"/>
   </dataFormats>
+  <route id="HouseInfoRoute">
+    <from uri="activemq:queue:house"/>
+    <unmarshal>
+      <jaxb contextPath="com.pduleba.loan.broker.xsd" prettyPrint="true" partClass="com.pduleba.loan.broker.xsd.HouseInfo"/>
+    </unmarshal>
+    <to uri="direct:schoolstart"/>
+    <log message="Nuumber of schools found :: ${body}"/>
+    <bean method="updateNumberOfSchools(${headers.CamelmyHouseInfo}, ${body})" beanType="com.pduleba.loan.broker.processor.HomeProcessor"/>
+    <log message="HouseInfo after update :: ${body}"/>
+  </route>
   <route id="SchoolRoute">
     <from uri="direct:schoolstart"/>
     <setHeader headerName="CamelmyHouseInfo">
@@ -24,13 +34,18 @@
     <log message="After unmarshaling :: ${body}"/>
     <bean method="findGeoLocation" beanType="com.pduleba.loan.broker.processor.HouseInfoProcessor"/>
     <log message="Geo locations : lat and lng are ${body}"/>
-  </route>
-  <route id="HouseInfoRoute">
-    <from uri="activemq:queue:house"/>
-    <unmarshal>
-      <jaxb contextPath="com.pduleba.loan.broker.xsd" prettyPrint="true" partClass="com.pduleba.loan.broker.xsd.HouseInfo"/>
-    </unmarshal>
-    <to uri="direct:schoolstart"/>
+    <setHeader headerName="host">
+      <constant>maps.googleapis.com</constant>
+    </setHeader>
+    <recipientList delimiter="|" streaming="true">
+      <simple>https4://maps.googleapis.com/maps/api/place/radarsearch/json?location=${body}&amp;amp;radius=500&amp;amp;types=school&amp;amp;sensor=false&amp;amp;key={{googlekey}}</simple>
+    </recipientList>
+    <unmarshal ref="jack"/>
+    <log message="Current body = ${body}"/>
+    <setBody>
+      <simple>${body.size}</simple>
+    </setBody>
+    <log message="Current body = ${body}"/>
   </route>
 </camelContext>
 
