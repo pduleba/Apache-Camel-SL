@@ -11,7 +11,7 @@ public class HouseInfoProcessor {
 		String newAddress = "";
 
 		newAddress = houseInfo.getAddress().replaceAll(" ", "+");
-		newAddress = newAddress.replace("", "");
+		newAddress = newAddress.replace(",", "");
 
 		return newAddress;
 	}
