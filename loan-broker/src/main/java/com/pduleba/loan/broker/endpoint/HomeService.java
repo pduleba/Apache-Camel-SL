@@ -7,15 +7,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/homeService")
-public class HomeService {
+public interface HomeService {
 
 	@GET
 	@Path("/details/{nationalID}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getSummary(@PathParam("nationalID") String nationalID) {
-		
-		
-		return null;
-	}
+	public String getSummary(@PathParam("nationalID") String nationalID);
 	
 }
