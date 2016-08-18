@@ -1,4 +1,4 @@
-Camel Router Project for Blueprint (OSGi)
+Camel Router Project for Spring Framework (OSGi)
 =========================================
 
 To build this project use

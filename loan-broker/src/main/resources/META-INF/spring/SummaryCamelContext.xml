@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-	xmlns:camel="http://camel.apache.org/schema/blueprint" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:cxf="http://camel.apache.org/schema/blueprint/cxf"
-	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd
-       http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
 	<cxf:rsServer id="rsServer" address="http://localhost:9090/route"
 		serviceClass="com.pduleba.loan.broker.endpoint.HomeService" />
 
-	<camelContext trace="false" id="summaryContext"
-		xmlns="http://camel.apache.org/schema/blueprint">
+	<camelContext trace="false" id="SummaryCamelContext"
+		xmlns="http://camel.apache.org/schema/spring">
 		<propertyPlaceholder location="classpath:sql.properties"
 			id="properties" />
-		<route id="summaryRoute" customId="true">
+		<route id="SummaryRoute" customId="true">
 			<from uri="cxfrs:bean:rsServer" />
 			<convertBodyTo type="java.lang.String" />
 			<setHeader headerName="nationalID">
 				<simple>${body}</simple>
 			</setHeader>
-			<to uri="sql:{{sql.selectCustHouseInfo}}" />
+			<to uri="sql:{{sql.selectHouseInfo}}" />
 			<log message="found in DB ${body}" />
 			<marshal>
 				<json library="Jackson" />
@@ -33,4 +35,4 @@
 		</route>
 	</camelContext>
 
-</blueprint>
+</beans>
