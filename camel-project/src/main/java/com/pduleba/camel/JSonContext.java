@@ -22,6 +22,8 @@ import com.pduleba.camel.restful.DeveloperRequest;
 @ComponentScan(basePackages = "com.pduleba")
 public class JSonContext extends CamelConfiguration {
 
+	// Camel Default Bean Formatters IDS hidden AFAIK 
+	// org.apache.camel.model.dataformat.JsonDataFormat.createDataFormat(RouteContext)
 	public static final String DATA_FORMAT_CAMEL_GSON_BEAN_ID = "json-gson"; // TRICK : Apache Camel Bean Id
 	public static final String DATA_FORMAT_CAMEL_JACKSON_BEAN_ID = "json-jackson"; // TRICK : Apache Camel Bean Id
 	public static final String DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID = "custom-jackson"; 

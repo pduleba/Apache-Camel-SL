@@ -11,11 +11,11 @@ import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spi.DataFormatResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-@Component
+@Service
 public class JsonService {
 
 	private GsonDataFormat gson;
