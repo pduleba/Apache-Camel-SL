@@ -5,9 +5,9 @@ import static com.pduleba.camel.JSonContext.DATA_FORMAT_CAMEL_JACKSON_BEAN_ID;
 import static com.pduleba.camel.JSonContext.DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID;
 
 import org.apache.camel.CamelContext;
-import org.apache.camel.component.cxf.DataFormat;
 import org.apache.camel.component.gson.GsonDataFormat;
 import org.apache.camel.component.jackson.JacksonDataFormat;
+import org.apache.camel.spi.DataFormat;
 import org.apache.camel.spi.DataFormatResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -36,6 +36,7 @@ public class JsonService {
 		this.gson = gson;
 		this.jackson = jackson;
 		this.custom = custom;
+		this.camelContext = camelContext;
 		this.dataFormatResolver = camelContext.getDataFormatResolver();
 	}
 
@@ -52,7 +53,7 @@ public class JsonService {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends DataFormat> T getDataFormatByBeanId(String beanId) {
+	public <T extends DataFormat> T resolveDataFormat(String beanId) {
 		return (T) this.dataFormatResolver.resolveDataFormat(beanId, camelContext);
 	}
 }

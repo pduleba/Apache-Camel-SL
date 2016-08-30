@@ -3,10 +3,14 @@ package com.pduleba.test.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.camel.BeanInject;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.component.gson.GsonDataFormat;
+import org.apache.camel.component.jackson.JacksonDataFormat;
+import org.apache.camel.spi.DataFormat;
 import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
 import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.junit.Before;
@@ -139,7 +143,7 @@ public class JSonTest {
     }
     
     @Test
-    public void testMarshalPojo_DefaultJacksonNotEqualDefaultGson() throws Exception {
+    public void testDefaultJacksonNotEqualDefaultGson() throws Exception {
     	// Given
 
         // When
@@ -149,4 +153,25 @@ public class JSonTest {
         assertNotEquals(payload_ByDefaultJackson, json);
     }
 
+    @Test
+    public void testResolveDataFormat() throws Exception {
+    	// Given
+    	String camelGsonBeanId = JSonContext.DATA_FORMAT_CAMEL_GSON_BEAN_ID;
+    	String camelJacksonBeanId = JSonContext.DATA_FORMAT_CAMEL_JACKSON_BEAN_ID;
+    	String customJacksonBeanId = JSonContext.DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID;
+
+        // When
+    	DataFormat camelGson = jsonService.resolveDataFormat(camelGsonBeanId);
+    	DataFormat camelJackson = jsonService.resolveDataFormat(camelJacksonBeanId);
+    	DataFormat customJackson = jsonService.resolveDataFormat(customJacksonBeanId);
+        
+        // Then
+        assertNotNull(camelGson);
+		assertTrue(camelGson instanceof GsonDataFormat);
+        assertNotNull(camelJackson);
+		assertTrue(camelJackson instanceof JacksonDataFormat);
+        assertNotNull(customJackson);
+		assertTrue(customJackson instanceof JacksonDataFormat);
+    }
+    
 }
