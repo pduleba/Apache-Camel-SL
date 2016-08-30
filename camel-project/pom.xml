@@ -25,6 +25,31 @@
 			<artifactId>camel-cxf</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http4</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<!-- Spring MVC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+            <version>4.3.2.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+            <version>4.3.2.RELEASE</version>
+		</dependency>
+		
+		<!-- Java Servlet -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <version>3.1.0</version>
+		    <scope>provided</scope><!-- Available on Tomcat -->
+		</dependency>
 		
 		<!-- Data Format - Jackson -->
 		<dependency>
@@ -36,12 +61,6 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-gson</artifactId>
-			<version>${camel.version}</version>
-		</dependency>
-		<!-- Data Format - Xstream -->
-		<dependency>
-			<groupId>org.apache.camel</groupId>
-			<artifactId>camel-xstream</artifactId>
 			<version>${camel.version}</version>
 		</dependency>
 
