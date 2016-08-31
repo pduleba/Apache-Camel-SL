@@ -1,4 +1,4 @@
-package com.pduleba.camel.restful;
+package com.pduleba.jaxrs;
 
 import java.io.IOException;
 

@@ -20,9 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.pduleba.camel.restful.DeveloperRequest;
-import com.pduleba.camel.restful.JsonService;
-import com.pduleba.context.CamelConfig;
+import com.pduleba.config.CamelConfig;
+import com.pduleba.jaxrs.DeveloperRequest;
+import com.pduleba.jaxrs.JsonService;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { CamelConfig.class }, loader = CamelSpringDelegatingTestContextLoader.class)

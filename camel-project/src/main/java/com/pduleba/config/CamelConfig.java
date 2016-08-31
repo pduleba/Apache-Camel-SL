@@ -1,6 +1,6 @@
-package com.pduleba.context;
+package com.pduleba.config;
 
-import static com.pduleba.context.ApplicationConfig.REST_BEAN_ID;
+import static com.pduleba.config.ApplicationConfig.REST_BEAN_ID;
 
 import java.text.MessageFormat;
 
@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.pduleba.camel.restful.DeveloperRequest;
-import com.pduleba.camel.restful.DeveloperResponse;
+import com.pduleba.jaxrs.DeveloperRequest;
+import com.pduleba.jaxrs.DeveloperResponse;
 
 @Configuration
 @PropertySource("classpath:application.properties")

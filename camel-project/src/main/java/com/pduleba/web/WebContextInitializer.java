@@ -8,7 +8,7 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import com.pduleba.context.ApplicationConfig;
+import com.pduleba.config.ApplicationConfig;
 
 /**
  * Initializes the web application in place of a descriptor.

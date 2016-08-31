@@ -1,4 +1,4 @@
-package com.pduleba.camel.restful;
+package com.pduleba.jaxrs;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

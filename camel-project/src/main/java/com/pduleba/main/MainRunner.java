@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.util.Assert;
 
-import com.pduleba.context.ApplicationConfig;
+import com.pduleba.config.ApplicationConfig;
 
 public class MainRunner {
 

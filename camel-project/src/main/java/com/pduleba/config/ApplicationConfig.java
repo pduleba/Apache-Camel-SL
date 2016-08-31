@@ -1,8 +1,8 @@
-package com.pduleba.context;
+package com.pduleba.config;
 
-import static com.pduleba.context.CamelConfig.DATA_FORMAT_CAMEL_GSON_BEAN_ID;
-import static com.pduleba.context.CamelConfig.DATA_FORMAT_CAMEL_JACKSON_BEAN_ID;
-import static com.pduleba.context.CamelConfig.DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID;
+import static com.pduleba.config.CamelConfig.DATA_FORMAT_CAMEL_GSON_BEAN_ID;
+import static com.pduleba.config.CamelConfig.DATA_FORMAT_CAMEL_JACKSON_BEAN_ID;
+import static com.pduleba.config.CamelConfig.DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID;
 
 import java.util.Arrays;
 
@@ -20,8 +20,8 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
-import com.pduleba.camel.restful.CompanyResource;
-import com.pduleba.camel.restful.JsonService;
+import com.pduleba.jaxrs.CompanyResource;
+import com.pduleba.jaxrs.JsonService;
 import com.pduleba.web.JaxRsApiApplication;
 
 @Configuration
