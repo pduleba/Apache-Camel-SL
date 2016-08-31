@@ -1,5 +1,11 @@
-package com.pduleba.camel;
+package com.pduleba.context;
 
+import static com.pduleba.context.ApplicationConfig.REST_BEAN_ID;
+
+import java.text.MessageFormat;
+
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.gson.GsonDataFormat;
 import org.apache.camel.component.jackson.JacksonDataFormat;
@@ -7,8 +13,8 @@ import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -17,17 +23,21 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.pduleba.camel.restful.DeveloperRequest;
+import com.pduleba.camel.restful.DeveloperResponse;
 
 @Configuration
-@ComponentScan(basePackages = "com.pduleba")
-public class JSonContext extends CamelConfiguration {
+@PropertySource("classpath:application.properties")
+public class CamelConfig extends CamelConfiguration {
 
 	// Camel Default Bean Formatters IDS hidden AFAIK 
 	// org.apache.camel.model.dataformat.JsonDataFormat.createDataFormat(RouteContext)
 	public static final String DATA_FORMAT_CAMEL_GSON_BEAN_ID = "json-gson"; // TRICK : Apache Camel Bean Id
 	public static final String DATA_FORMAT_CAMEL_JACKSON_BEAN_ID = "json-jackson"; // TRICK : Apache Camel Bean Id
 	public static final String DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID = "custom-jackson"; 
-	
+
+	public static final String CXFRS_ENDPOINT_ID = MessageFormat.format("cxfrs:bean:{0}", REST_BEAN_ID);
+	public static final String MOCK_ENDPOINT_ID = "mock:result";
+
 	@Bean(name = DATA_FORMAT_CAMEL_GSON_BEAN_ID) 
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 	public GsonDataFormat gson() {
@@ -55,9 +65,29 @@ public class JSonContext extends CamelConfiguration {
 	public JacksonDataFormat custom() {
 	    return new JacksonDataFormat(new ObjectMapper(), DeveloperRequest.class);
 	}
+
+	@Bean
+	public RouteBuilder rsRoute() {
+		return new RouteBuilder() {
+
+			@Override
+			public void configure() throws Exception {
+				
+				from(CXFRS_ENDPOINT_ID).process(new Processor() {
+
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						exchange.getOut().setBody(
+								new DeveloperResponse(200, "Success on processor!"));
+					}
+				})
+				.to(MOCK_ENDPOINT_ID);
+			}
+		};
+	}
 	
 	@Bean
-	public RouteBuilder route() {
+	public RouteBuilder jsonRoute() {
 		return new RouteBuilder() {
 
 			@Override
@@ -76,4 +106,5 @@ public class JSonContext extends CamelConfiguration {
 			}
 		};
 	}
+
 }

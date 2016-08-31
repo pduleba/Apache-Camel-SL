@@ -1,4 +1,4 @@
-package com.pduleba.camel;
+package com.pduleba.web;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

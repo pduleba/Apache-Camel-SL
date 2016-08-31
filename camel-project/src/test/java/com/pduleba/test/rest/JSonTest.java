@@ -20,12 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.pduleba.camel.JSonContext;
 import com.pduleba.camel.restful.DeveloperRequest;
 import com.pduleba.camel.restful.JsonService;
+import com.pduleba.context.CamelConfig;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { JSonContext.class }, loader = CamelSpringDelegatingTestContextLoader.class)
+@ContextConfiguration(classes = { CamelConfig.class }, loader = CamelSpringDelegatingTestContextLoader.class)
 //@MockEndpoints
 public class JSonTest {
 
@@ -156,9 +156,9 @@ public class JSonTest {
     @Test
     public void testResolveDataFormat() throws Exception {
     	// Given
-    	String camelGsonBeanId = JSonContext.DATA_FORMAT_CAMEL_GSON_BEAN_ID;
-    	String camelJacksonBeanId = JSonContext.DATA_FORMAT_CAMEL_JACKSON_BEAN_ID;
-    	String customJacksonBeanId = JSonContext.DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID;
+    	String camelGsonBeanId = CamelConfig.DATA_FORMAT_CAMEL_GSON_BEAN_ID;
+    	String camelJacksonBeanId = CamelConfig.DATA_FORMAT_CAMEL_JACKSON_BEAN_ID;
+    	String customJacksonBeanId = CamelConfig.DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID;
 
         // When
     	DataFormat camelGson = jsonService.resolveDataFormat(camelGsonBeanId);

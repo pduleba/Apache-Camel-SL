@@ -8,10 +8,12 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import com.google.gson.Gson;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class DeveloperRequest {
 	

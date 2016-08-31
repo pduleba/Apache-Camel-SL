@@ -17,6 +17,6 @@ public class CompanyResource {
    @Consumes(MediaType.APPLICATION_JSON)
    @Produces(MediaType.APPLICATION_JSON)
    public DeveloperResponse save(DeveloperRequest developer) {
-	   return new DeveloperResponse(200, "Success!");
+	   return new DeveloperResponse(200, "Success on resource!");
    }
 }
