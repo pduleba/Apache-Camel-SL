@@ -2,6 +2,8 @@ package com.pduleba.config;
 
 import static com.pduleba.config.ApplicationConfig.REST_BEAN_ID;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.MessageFormat;
 
 import org.apache.camel.Exchange;
@@ -53,7 +55,21 @@ public class CamelConfig extends CamelConfiguration {
 		.setPrettyPrinting()
 		.serializeNulls().create();
 		
-		return new GsonDataFormat(gson, DeveloperRequest.class);
+		return new GsonDataFormat(gson, DeveloperRequest.class) {
+			@Override
+			public void marshal(Exchange exchange, Object graph,
+					OutputStream stream) throws Exception {
+				LOG.info(">>>> Custom marshal data format logic called");
+				super.marshal(exchange, graph, stream);
+			}
+			
+			@Override
+			public Object unmarshal(Exchange exchange, InputStream stream)
+					throws Exception {
+				LOG.info(">>>> Custom unmarshal data format logic called");
+				return super.unmarshal(exchange, stream);
+			}
+		};
 	}
 	
 	@Bean(name = DATA_FORMAT_CAMEL_JACKSON_BEAN_ID) 
