@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -28,23 +29,25 @@ import com.pduleba.config.ApplicationConfig;
 import com.pduleba.config.CamelConfig;
 import com.pduleba.jaxrs.DeveloperRequest;
 import com.pduleba.jaxrs.DeveloperResponse;
-import com.pduleba.jaxrs.JsonService;
+import com.pduleba.service.JsonService;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(
         classes = {ApplicationConfig.class},
         loader = CamelSpringDelegatingTestContextLoader.class)
-//@MockEndpoints
 public class RestRouteTest {
 
 	@EndpointInject(uri = CamelConfig.MOCK_ENDPOINT_ID)
 	private MockEndpoint result;
 
-	@Produce(uri = "http4://localhost:9000/company/save")
+	@Produce(uri = "http4://localhost:9000/api/company/save")
 	private ProducerTemplate browser;
 	
 	@Autowired
 	private JsonService jsonService;
+	
+	@Value("${use.jackson.provider}") 
+	boolean useJacksonProvider;
 	
 	private DeveloperRequest request;
 	private Object requestJson;
@@ -52,7 +55,11 @@ public class RestRouteTest {
 	@Before
 	public void before() throws JsonProcessingException {
 		this.request = DeveloperRequest.getRequest();
-		this.requestJson = jsonService.serializeByCustomJackson(request);
+		if (useJacksonProvider) {
+			this.requestJson = jsonService.serializeByJacksonProvider(request, DeveloperRequest.class);
+		} else {
+			this.requestJson = jsonService.serializeByDefaultProvider(request, DeveloperRequest.class);
+		}
 	}
 
 	@Test

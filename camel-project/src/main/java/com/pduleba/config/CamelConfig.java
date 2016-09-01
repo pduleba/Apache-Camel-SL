@@ -11,6 +11,10 @@ import org.apache.camel.component.gson.GsonDataFormat;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
+import org.apache.cxf.jaxrs.provider.json.JSONProvider;
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,12 +32,17 @@ import com.pduleba.jaxrs.DeveloperResponse;
 @Configuration
 @PropertySource("classpath:application.properties")
 public class CamelConfig extends CamelConfiguration {
-
+	
+	private static final Logger LOG = Logger.getLogger(CamelConfig.class);
+	
 	// Camel Default Bean Formatters IDS hidden AFAIK 
 	// org.apache.camel.model.dataformat.JsonDataFormat.createDataFormat(RouteContext)
 	public static final String DATA_FORMAT_CAMEL_GSON_BEAN_ID = "json-gson"; // TRICK : Apache Camel Bean Id
 	public static final String DATA_FORMAT_CAMEL_JACKSON_BEAN_ID = "json-jackson"; // TRICK : Apache Camel Bean Id
 	public static final String DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID = "custom-jackson"; 
+	
+	public static final String DATA_FORMAT_DEFAULT_CXF_PROVIDER_BEAN_ID = "default-cxf-provider"; 
+	public static final String DATA_FORMAT_JACKSON_CXF_PROVIDER_BEAN_ID = "jackson-cxf-provider"; 
 
 	public static final String CXFRS_ENDPOINT_ID = MessageFormat.format("cxfrs:bean:{0}", REST_BEAN_ID);
 	public static final String MOCK_ENDPOINT_ID = "mock:result";
@@ -62,25 +71,39 @@ public class CamelConfig extends CamelConfiguration {
 	
 	@Bean(name = DATA_FORMAT_CUSTOM_JACKSON_BEAN_ID) 
 	@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-	public JacksonDataFormat custom() {
+	public JacksonDataFormat customJackson() {
 	    return new JacksonDataFormat(new ObjectMapper(), DeveloperRequest.class);
 	}
 
+	@Bean(name = DATA_FORMAT_DEFAULT_CXF_PROVIDER_BEAN_ID) 
+	public JSONProvider<Object> cxfDefault() {
+		return new JSONProvider<>();
+	}
+	
+	@Bean(name = DATA_FORMAT_JACKSON_CXF_PROVIDER_BEAN_ID)
+	public JacksonJsonProvider jsonProvider() {
+		return new JacksonJsonProvider();
+	}
+
 	@Bean
-	public RouteBuilder rsRoute() {
+	public RouteBuilder rsRoute(@Value("${camel.performInvocation}") boolean performInvocation) {
 		return new RouteBuilder() {
 
 			@Override
 			public void configure() throws Exception {
 				
-				from(CXFRS_ENDPOINT_ID).process(new Processor() {
+				String fromUri = MessageFormat.format("{0}?performInvocation={1}", CXFRS_ENDPOINT_ID,
+						performInvocation);
+				from(fromUri).log("BODY BEFORE PROCESSING = ${body}").process(new Processor() {
 
 					@Override
 					public void process(Exchange exchange) throws Exception {
+						LOG.info("Executing route processor logic");
 						exchange.getOut().setBody(
-								new DeveloperResponse(200, "Success on processor!"));
+								new DeveloperResponse(200, "Successful processor result!"));
 					}
 				})
+				.log("BODY AFTER PROCESSING = ${body}")
 				.to(MOCK_ENDPOINT_ID);
 			}
 		};

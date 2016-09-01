@@ -11,6 +11,7 @@
 
 	<properties>
 		<camel.version>2.17.3</camel.version>
+		<cxf.version>3.1.7</cxf.version>
 	</properties>
 
     <dependencies>
@@ -34,45 +35,33 @@
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-rs-extension-providers</artifactId>
-			<version>3.1.7</version>
+			<version>${cxf.version}</version>
 			<!-- <scope>test</scope> -->
 		</dependency>
-		<dependency>
-			<groupId>org.codehaus.jettison</groupId>
-			<artifactId>jettison</artifactId>
-			<version>1.3.8</version>
-			<!-- <scope>test</scope> -->
+		<dependency><!-- https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=61318164#SwaggerFeature/Swagger2Feature-ConfiguringinSpring -->
+		    <groupId>org.apache.cxf</groupId>
+		    <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
+			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
 	        <groupId>org.apache.cxf</groupId>
 	        <artifactId>cxf-rt-transports-http-jetty</artifactId>
-	        <version>3.1.7</version>
-	        <scope>test</scope>
+			<version>${cxf.version}</version>
+	        <!-- <scope>test</scope> -->
 	    </dependency>
+	    
+	    <!-- Jackson provider required by standard -->
 		<dependency>
 		    <groupId>org.codehaus.jackson</groupId>
 		    <artifactId>jackson-jaxrs</artifactId>
 		    <version>1.9.13</version>
 		</dependency>
-
-		<!-- Spring MVC -->
+	    <!-- Jettison provider required by standard -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-            <version>4.3.2.RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-            <version>4.3.2.RELEASE</version>
-		</dependency>
-		
-		<!-- Java Servlet -->
-		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>javax.servlet-api</artifactId>
-		    <version>3.1.0</version>
-		    <scope>provided</scope><!-- Available on Tomcat -->
+			<groupId>org.codehaus.jettison</groupId>
+			<artifactId>jettison</artifactId>
+			<version>1.3.8</version>
+			<!-- <scope>test</scope> -->
 		</dependency>
 		
 		<!-- Data Format - Jackson -->
@@ -95,6 +84,18 @@
 		    <version>1.16.10</version>
 		</dependency>
 
+		<!-- LOGGING -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.21</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+  
 		<!-- TESTING -->
     	<dependency>
     		<groupId>org.apache.camel</groupId>
@@ -165,4 +166,30 @@
 		</plugins>
 		<finalName>ofp</finalName>
     </build>
+    
+    <profiles>
+        <profile>
+            <id>server</id>
+            <build>
+                <defaultGoal>test</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <configuration>
+                                    <mainClass>com.pduleba.main.Server</mainClass>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+	</profiles>
 </project>

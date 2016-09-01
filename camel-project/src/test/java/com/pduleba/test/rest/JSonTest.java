@@ -20,12 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.pduleba.config.ApplicationConfig;
 import com.pduleba.config.CamelConfig;
 import com.pduleba.jaxrs.DeveloperRequest;
-import com.pduleba.jaxrs.JsonService;
+import com.pduleba.service.JsonService;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { CamelConfig.class }, loader = CamelSpringDelegatingTestContextLoader.class)
+@ContextConfiguration(classes = { ApplicationConfig.class }, loader = CamelSpringDelegatingTestContextLoader.class)
 //@MockEndpoints
 public class JSonTest {
 
@@ -53,6 +54,8 @@ public class JSonTest {
 	private String payload_ByDefaultGson;
 	private String payload_ByDefaultJackson;
 	private String payload_ByCustomJackson;
+	private String payload_ByDefaultProvider;
+	private String payload_ByJacksonProvider;
 	private DeveloperRequest request;
 
 	@Before
@@ -61,7 +64,29 @@ public class JSonTest {
 		this.payload_ByDefaultGson = jsonService.serializeByDefaultGson(request);
 		this.payload_ByDefaultJackson = jsonService.serializeByDefaultJackson(request);
 		this.payload_ByCustomJackson = jsonService.serializeByCustomJackson(request);
+		this.payload_ByDefaultProvider = jsonService.serializeByDefaultProvider(request, DeveloperRequest.class);
+		this.payload_ByJacksonProvider = jsonService.serializeByJacksonProvider(request, DeveloperRequest.class);
 	}
+	
+    @Test
+    public void testMarshalPojo_ByDefaultProvider() throws Exception {
+    	// Given
+
+        // When
+        
+        // Then
+        assertNotNull(payload_ByDefaultProvider);
+    }
+	
+    @Test
+    public void testMarshalPojo_ByJacksonProvider() throws Exception {
+    	// Given
+
+        // When
+        
+        // Then
+        assertNotNull(payload_ByJacksonProvider);
+    }
 	
     @Test
     public void testUnmarshalPojo_ByDefaultGson() throws Exception {

@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,7 @@ import com.google.gson.Gson;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@XmlRootElement
 public class DeveloperRequest {
 	
 	private static final Date DATE_2000_01_01 = new GregorianCalendar(2000, 1, 1).getTime();
@@ -32,7 +35,7 @@ public class DeveloperRequest {
 
 	public static DeveloperRequest getRequest() {
 		return new DeveloperRequest("Mike", "Johnson", 45, DATE_2000_01_01,
-				BigDecimal.TEN, Arrays.asList("Java", "C#", "JS", "C/C++"));
+				BigDecimal.TEN, Arrays.asList("Java"));
 	}
 
 }
