@@ -62,7 +62,6 @@ public class ApplicationConfig extends CamelConfiguration {
 	public Swagger2Feature swagger2feature() {
 		Swagger2Feature swagger2Feature = new Swagger2Feature();
 		
-		
 		return swagger2Feature;
 	}
 	

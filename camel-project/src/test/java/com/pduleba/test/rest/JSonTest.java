@@ -8,14 +8,14 @@ import static org.junit.Assert.assertTrue;
 import org.apache.camel.BeanInject;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.component.gson.GsonDataFormat;
-import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spi.DataFormat;
 import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
 import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -27,7 +27,7 @@ import com.pduleba.service.JsonService;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { ApplicationConfig.class }, loader = CamelSpringDelegatingTestContextLoader.class)
-//@MockEndpoints
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class JSonTest {
 
 	@Produce(uri = "direct:toJson_ByDefaultGson")
@@ -67,29 +67,9 @@ public class JSonTest {
 		this.payload_ByDefaultProvider = jsonService.serializeByDefaultProvider(request, DeveloperRequest.class);
 		this.payload_ByJacksonProvider = jsonService.serializeByJacksonProvider(request, DeveloperRequest.class);
 	}
-	
+		
     @Test
-    public void testMarshalPojo_ByDefaultProvider() throws Exception {
-    	// Given
-
-        // When
-        
-        // Then
-        assertNotNull(payload_ByDefaultProvider);
-    }
-	
-    @Test
-    public void testMarshalPojo_ByJacksonProvider() throws Exception {
-    	// Given
-
-        // When
-        
-        // Then
-        assertNotNull(payload_ByJacksonProvider);
-    }
-	
-    @Test
-    public void testUnmarshalPojo_ByDefaultGson() throws Exception {
+    public void shouldUnmarshalByDefaultGson() throws Exception {
     	// Given
     	
 		// When
@@ -104,7 +84,7 @@ public class JSonTest {
     }
 
     @Test
-    public void testMarshalPojo_ByDefaultGson() throws Exception {
+    public void shouldMarshalByDefaultGson() throws Exception {
     	// Given
 
         // When
@@ -115,7 +95,7 @@ public class JSonTest {
     }
 	
     @Test
-    public void testUnmarshalPojo_ByDefaultJackson() throws Exception {
+    public void shouldUnmarshalByDefaultJackson() throws Exception {
     	// Given
     	
 		// When
@@ -130,7 +110,7 @@ public class JSonTest {
     }
 
     @Test
-    public void testMarshalPojo_ByDefaultJackson() throws Exception {
+    public void shouldMarshalByDefaultJackson() throws Exception {
     	// Given
 
         // When
@@ -141,7 +121,7 @@ public class JSonTest {
     }
 	
     @Test
-    public void testUnmarshalPojo_ByCustomJackson() throws Exception {
+    public void shouldUnmarshalByCustomJackson() throws Exception {
     	// Given
         DeveloperRequest request = DeveloperRequest.getRequest();
     	
@@ -157,7 +137,7 @@ public class JSonTest {
     }
 
     @Test
-    public void testMarshalPojo_ByCustomJackson() throws Exception {
+    public void shouldMarshalByCustomJackson() throws Exception {
     	// Given
 
         // When
@@ -168,7 +148,7 @@ public class JSonTest {
     }
     
     @Test
-    public void testDefaultJacksonNotEqualDefaultGson() throws Exception {
+    public void customJacksonDataFormatShouldNotbeEqualToDefaultJackson() throws Exception {
     	// Given
 
         // When
@@ -192,11 +172,32 @@ public class JSonTest {
         
         // Then
         assertNotNull(camelGson);
-		assertTrue(camelGson instanceof GsonDataFormat);
+		assertTrue(camelGson == jsonService.getGson());
         assertNotNull(camelJackson);
-		assertTrue(camelJackson instanceof JacksonDataFormat);
+		assertTrue(camelJackson == jsonService.getJackson());
         assertNotNull(customJackson);
-		assertTrue(customJackson instanceof JacksonDataFormat);
+		assertTrue(customJackson == jsonService.getCustom());
     }
     
+
+    @Test
+    public void shouldBeMarshaledByDefaultProvider() throws Exception {
+    	// Given
+
+        // When
+        
+        // Then
+        assertNotNull(payload_ByDefaultProvider);
+    }
+	
+    @Test
+    public void shouldBeMarshaledByJacksonProvider() throws Exception {
+    	// Given
+
+        // When
+        
+        // Then
+        assertNotNull(payload_ByJacksonProvider);
+    }
+
 }

@@ -6,6 +6,8 @@ import java.io.IOException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
+import lombok.Getter;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.gson.GsonDataFormat;
 import org.apache.camel.component.jackson.JacksonDataFormat;
@@ -21,9 +23,9 @@ public class JsonService {
 
 	public static final Logger LOG = Logger.getLogger(JsonService.class);
 	
-	private GsonDataFormat gson;
-	private JacksonDataFormat jackson;
-	private JacksonDataFormat custom;
+	@Getter private GsonDataFormat gson;
+	@Getter private JacksonDataFormat jackson;
+	@Getter private JacksonDataFormat custom;
 
 	private JSONProvider<Object> defaultProvider;
 	private JacksonJsonProvider jacksonProvider;
