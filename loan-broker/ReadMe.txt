@@ -17,3 +17,8 @@ or Apache Karaf. You can run the following command from its shell:
 For more help see the Apache Camel documentation
 
     http://camel.apache.org/
+
+Based on Christina Lin tutorial (part 1 - 5)
+
+	https://www.youtube.com/watch?v=JMaYhxfup2M&list=PLIS-R80eiu1sYyXHoCD7VlLQwHkuIwEdr&index=1 
+	https://github.com/weimeilin79
