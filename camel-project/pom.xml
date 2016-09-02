@@ -15,7 +15,7 @@
 	</properties>
 
     <dependencies>
-		<!-- Apache Camel -->
+		<!-- Apache Camel  -->
     	<dependency>
     		<groupId>org.apache.camel</groupId>
     		<artifactId>camel-spring-javaconfig</artifactId>
