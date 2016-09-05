@@ -38,11 +38,6 @@
 			<version>${cxf.version}</version>
 			<!-- <scope>test</scope> -->
 		</dependency>
-		<dependency><!-- https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=61318164#SwaggerFeature/Swagger2Feature-ConfiguringinSpring -->
-		    <groupId>org.apache.cxf</groupId>
-		    <artifactId>cxf-rt-rs-service-description-swagger</artifactId>
-			<version>${cxf.version}</version>
-		</dependency>
 		<dependency>
 	        <groupId>org.apache.cxf</groupId>
 	        <artifactId>cxf-rt-transports-http-jetty</artifactId>
