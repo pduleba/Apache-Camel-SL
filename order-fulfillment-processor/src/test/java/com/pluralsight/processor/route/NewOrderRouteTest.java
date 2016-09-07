@@ -57,7 +57,7 @@ public class NewOrderRouteTest {
                   + "values (99, 1, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
       Thread.sleep(5000);
       int total = jdbcTemplate.queryForObject(
-            "select count(id) from orders.orderdata where status = 'P'",
+            "select count(id) from orders.orderdata where status = 'P' and id = 99",
             Integer.class);
       assertEquals(1, total);
 

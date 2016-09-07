@@ -50,8 +50,8 @@ public class OrderTranslatorServiceTest {
 
    @Test
    public void test_transformToOrderItemMessageSuccess() throws Exception {
-      Map<String, Object> orderIds = new HashMap<String, Object>();
-      orderIds.put("id", orderId);
+      Map<String, Integer> orderIds = new HashMap<>();
+      orderIds.put("id", Integer.valueOf(orderId.intValue()));
       String xml = translator.transform(orderIds);
       System.err.println(xml);
       assertNotNull(xml);

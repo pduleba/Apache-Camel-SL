@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
  * 
  */
 @Configuration
-@ComponentScan("com.pluralsight.processor")
+@ComponentScan(basePackageClasses = ApplicationConfig.class)
 public class ApplicationConfig {
 
 	@Configuration

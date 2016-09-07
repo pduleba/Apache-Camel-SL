@@ -83,7 +83,8 @@ public class IntegrationConfig extends CamelConfiguration {
 								.append("?consumer.onConsume=")
 								.append(format(
 										"UPDATE orders.orderdata SET status = ''{0}'' WHERE id = :#id",
-										PROCESSING.getCode())).toString())
+										PROCESSING.getCode())).toString()).routeId("producerRoute")
+						.log("SQL RESULT = ${body}")
 						.beanRef(OrderTranslatorService.BEAN_NAME, "transform")
 						.to("activemq:queue:ORDER_ITEM_PROCESSING");
 			}
@@ -100,7 +101,7 @@ public class IntegrationConfig extends CamelConfiguration {
 						"http://www.pluralsight.com/orderfulfillment/Order");
 				// Send from the ORDER_ITEM_PROCESSING queue to the correct
 				// fulfillment center queue.
-				from("activemq:queue:ORDER_ITEM_PROCESSING")
+				from("activemq:queue:ORDER_ITEM_PROCESSING").routeId("proxyRoute")
 						.log("Before Choice ${body}")
 						.choice()
 							.when()
@@ -125,7 +126,7 @@ public class IntegrationConfig extends CamelConfiguration {
 		return new RouteBuilder() {
 			@Override
 			public void configure() throws Exception {
-				from("activemq:queue:FC1_FULFILLMENT_REQUEST")
+				from("activemq:queue:FC1_FULFILLMENT_REQUEST").routeId("dispatcherRoute")
 						.beanRef("fulfillmentCenterOneProcessor", "transform")
 						.setHeader(org.apache.camel.Exchange.CONTENT_TYPE,
 								constant("application/json"))

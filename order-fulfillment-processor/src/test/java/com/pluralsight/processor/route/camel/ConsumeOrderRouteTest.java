@@ -12,7 +12,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.apache.camel.component.mock.MockEndpoint;
-import org.apache.camel.spring.javaconfig.SingleRouteCamelConfiguration;
+import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
 import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.junit.After;
@@ -76,7 +76,7 @@ public class ConsumeOrderRouteTest {
    }
 
    @Configuration
-   public static class TestConfig extends SingleRouteCamelConfiguration {
+   public static class TestConfig extends CamelConfiguration {
       @Bean
       public FulfillmentCenterOneProcessor fulfillmentCenterOneProcessor() {
          return new FulfillmentCenterOneProcessor();
@@ -111,8 +111,7 @@ public class ConsumeOrderRouteTest {
       }
 
       @Bean
-      @Override
-      public RouteBuilder route() {
+      public RouteBuilder testRoutes() {
          return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
@@ -122,10 +121,12 @@ public class ConsumeOrderRouteTest {
                // 2 - Route from the ActiveMQ component through the message
                // processor for fulfillment center one to the fulfillment center
                // one restful web service, and finally, to a mock component.
-               from("activemq:queue:FC1_FULFILLMENT_REQUEST")
+               from("activemq:queue:FC1_FULFILLMENT_REQUEST").routeId("testProducerRoute")
+                     .log("BEFORE TEST PROCESSING = ${body}")
                      .beanRef("fulfillmentCenterOneProcessor", "transform")
-                     .setHeader(org.apache.camel.Exchange.CONTENT_TYPE,
-                           constant("application/json"))
+                     .log("AFTER TEST PROCESSING = ${body}")
+                     .setHeader(org.apache.camel.Exchange.CONTENT_TYPE, constant("application/json"))
+                     .setHeader(Exchange.HTTP_METHOD, constant("POST"))
                      .to("http4://localhost:8090/services/orderFulfillment/processOrders")
                      .to("mock:direct:result");
 

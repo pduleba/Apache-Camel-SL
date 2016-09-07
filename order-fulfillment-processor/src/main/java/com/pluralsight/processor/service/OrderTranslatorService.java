@@ -19,7 +19,7 @@ public class OrderTranslatorService {
 	@Inject
 	private OrderService orderService;
 
-	public String transform(Map<String, Object> orderIds) {
+	public String transform(Map<String, Integer> orderIds) {
 		String output = null;
 		try {
 			if (orderIds == null) {
@@ -30,14 +30,13 @@ public class OrderTranslatorService {
 				throw new Exception(
 						"Could not find a valid key of 'id' for the order ID.");
 			}
-			if (orderIds.get("id") == null
-					|| !(orderIds.get("id") instanceof Long)) {
+			Integer id = orderIds.get("id");
+			if (id == null || !(id instanceof Integer)) {
 				throw new Exception(
 						"The order ID was not correctly provided or formatted.");
 			}
 
-			output = orderService.processCreateOrderMessage((Long) orderIds
-					.get("id"));
+			output = orderService.processCreateOrderMessage(Long.valueOf(id.longValue()));
 		} catch (Exception e) {
 			log.error("Order processing failed: " + e.getMessage(), e);
 		}
