@@ -16,6 +16,12 @@
 	<artifactId>order-fulfillment-processor</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
+	<properties>
+		<java.version>1.8</java.version>
+		<camel.version>2.15.2</camel.version>
+		<spring.version>4.1.6.RELEASE</spring.version>
+	</properties>
+
     <dependencies>
 
 		<!-- ActiveMQ -->
@@ -34,47 +40,53 @@
     	<dependency>
     		<groupId>org.apache.camel</groupId>
     		<artifactId>camel-spring</artifactId>
-    		<version>2.13.2</version>
+    		<version>${camel.version}</version>
     	</dependency>
     	<dependency>
     		<groupId>org.apache.camel</groupId>
     		<artifactId>camel-spring-javaconfig</artifactId>
-    		<version>2.13.2</version>
+    		<version>${camel.version}</version>
     	</dependency>
     	<dependency>
     		<groupId>org.apache.camel</groupId>
     		<artifactId>camel-sql</artifactId>
-    		<version>2.13.2</version>
+    		<version>${camel.version}</version>
     	</dependency>
-    	<dependency>
-    		<groupId>org.apache.camel</groupId>
-    		<artifactId>camel-test-spring</artifactId>
-    		<version>2.13.2</version>
-    		<scope>test</scope>
-    	</dependency>
-    	
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-http4</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<!-- Google -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+		    	
     	<!-- SPRING FRAMEWORK -->
         <dependency>
         	<groupId>org.springframework</groupId>
         	<artifactId>spring-aop</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 		</dependency>
         <dependency>
         	<groupId>org.springframework</groupId>
         	<artifactId>spring-context</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 		</dependency>
         <dependency>
         	<groupId>org.springframework</groupId>
         	<artifactId>spring-tx</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 		</dependency>
 
     	<!-- Spring framework core dependency minus commons logging in favor of SLF4J -->
         <dependency>
         	<groupId>org.springframework</groupId>
         	<artifactId>spring-core</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
         	<exclusions>
         		<exclusion>
         			<groupId>commons-logging</groupId>
@@ -87,28 +99,28 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aspects</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 		</dependency>
 
 		<!-- Spring MVC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 		</dependency>
 
 		<!-- Spring MVC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 		</dependency>
 
 		<!-- Spring JDBC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 		</dependency>
 
 		<!-- Spring Data JPA -->
@@ -159,7 +171,7 @@
         <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 		</dependency>
 
 		<!-- JAXB IMPL -->		
@@ -172,6 +184,13 @@
 		    <groupId>com.sun.xml.bind</groupId>
 		    <artifactId>jaxb-core</artifactId>
 		    <version>2.2.11</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.10</version>
+			<scope>provided</scope>
 		</dependency>
 		
 		<!-- LOGGING -->
@@ -289,13 +308,13 @@
         <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-            <version>4.0.4.RELEASE</version>
+            <version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit-dep</artifactId>
-			<version>4.10</version>
+			<version>4.11</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -316,6 +335,12 @@
 			<version>1.9.0</version>
 			<scope>test</scope>
 		</dependency>
+    	<dependency>
+    		<groupId>org.apache.camel</groupId>
+    		<artifactId>camel-test-spring</artifactId>
+    		<version>${camel.version}</version>
+    		<scope>test</scope>
+    	</dependency>
 
     </dependencies>
 
@@ -336,8 +361,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -372,9 +397,9 @@
 							<artifactId>spring-aspects</artifactId>
 						</aspectLibrary>
 					</aspectLibraries>
-					<complianceLevel>1.7</complianceLevel>
-					<source>1.7</source>
-					<target>1.7</target>
+					<complianceLevel>${java.version}</complianceLevel>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -419,7 +444,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<packageName>com.pluralsight.orderfulfillment.generated</packageName>
+					<packageName>com.pluralsight.processor.generated</packageName>
 				</configuration>
 			</plugin>
 		</plugins>
