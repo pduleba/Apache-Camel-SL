@@ -23,7 +23,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.web.WebAppConfiguration;
 
 import com.google.gson.Gson;
 import com.pluralsight.processor.dto.ServiceResponse;
@@ -42,9 +41,8 @@ import com.pluralsight.processor.service.FulfillmentCenterOneProcessor;
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @ContextConfiguration(
-	      classes = { ConsumeFulfillmentABCOrderRouteTest.TestConfig.class },
-	      loader = CamelSpringDelegatingTestContextLoader.class)
-@WebAppConfiguration
+      classes = { ConsumeFulfillmentCenterOneOrderRouteTest.TestConfig.class },
+      loader = CamelSpringDelegatingTestContextLoader.class)
 public class ConsumeFulfillmentCenterOneOrderRouteTest {
 
    @org.apache.camel.Produce(uri = "direct:test")
