@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import javax.inject.Inject;
 
+import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,9 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.pluralsight.processor.ApplicationConfig;
 
@@ -24,10 +23,9 @@ import com.pluralsight.processor.ApplicationConfig;
  * @author Michael Hoffman, Pluralsight
  * 
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(CamelSpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
 @ContextConfiguration(classes = { ApplicationConfig.class })
-@Transactional
 @WebAppConfiguration
 public class NewOrderRouteTest {
 
@@ -54,7 +52,7 @@ public class NewOrderRouteTest {
                   + "values (99, 1, '1001', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'N')");
       jdbcTemplate
             .execute("insert into orders.orderitem (id, order_id, catalogitem_id, status, price, quantity, lastupdate) "
-                  + "values (99, 1, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
+                  + "values (99, 99, 1, 'N', 20.00, 1, CURRENT_TIMESTAMP)");
       Thread.sleep(5000);
       int total = jdbcTemplate.queryForObject(
             "select count(id) from orders.orderdata where status = 'P' and id = 99",
