@@ -3,6 +3,9 @@ package com.pluralsight.processor.route.camel;
 import static com.pluralsight.processor.generated.FulfillmentCenter.ABC_FULFILLMENT_CENTER;
 import static com.pluralsight.processor.generated.FulfillmentCenter.FULFILLMENT_CENTER_ONE;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.jms.ConnectionFactory;
 
 import org.apache.activemq.camel.component.ActiveMQComponent;
@@ -162,8 +165,8 @@ public class ConsumeFulfillmentABCOrderRouteTest {
             public void configure() throws Exception {
                // Namespace is needed for XPath lookup
                Namespaces namespace = new Namespaces("o", "http://www.pluralsight.com/orderfulfillment/Order");
-//               SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-hhmmss");
-//               String dateString = sdf.format(new Date(System.currentTimeMillis()));
+               SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-hhmmss");
+               String dateString = sdf.format(new Date(System.currentTimeMillis()));
 
                onException(CamelExchangeException.class).to(
                      "activemq:queue:ABC_FULFILLMENT_ERROR");
@@ -179,13 +182,12 @@ public class ConsumeFulfillmentABCOrderRouteTest {
                                  + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value()
                                  + "')]", String.class, namespace)
                      .ignoreInvalidCorrelationKeys().completionInterval(10000)
-//                     .beanRef(FulfillmentABCProcessor.BEAN_NAME, "processAggregate")
-//                     .marshal()
-//                     .csv()
-//                     .to("file://C:/dev/abcfulfillmentcenter/out?fileName=abcfc-"
-//                           + dateString + ".csv")
-//                     .setHeader("CamelFileName",
-//                           constant("abcfc-" + dateString + ".csv"))
+                     .beanRef(FulfillmentABCProcessor.BEAN_NAME, "processAggregate")
+                     .marshal() // marshal to CSV format
+                     .csv()
+                     .to("file://C://Users//pduleba//Desktop//out?fileName=abcfc-"
+                           + dateString + ".csv")
+                     .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv")) // for Apache Component File
 //                     .to("sftp://localhost:22?username=test&password=test")
                      .to("mock:direct:result");
             }
