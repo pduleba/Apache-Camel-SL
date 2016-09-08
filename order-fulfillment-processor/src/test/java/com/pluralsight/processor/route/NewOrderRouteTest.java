@@ -23,9 +23,9 @@ import com.pluralsight.processor.ApplicationConfig;
  * @author Michael Hoffman, Pluralsight
  * 
  */
-@RunWith(CamelSpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = { ApplicationConfig.class })
+@RunWith(CamelSpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {ApplicationConfig.class})
 @WebAppConfiguration
 public class NewOrderRouteTest {
 

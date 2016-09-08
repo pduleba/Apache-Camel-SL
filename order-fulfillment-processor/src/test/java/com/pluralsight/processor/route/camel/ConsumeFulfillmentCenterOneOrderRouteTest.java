@@ -111,7 +111,7 @@ public class ConsumeFulfillmentCenterOneOrderRouteTest {
       }
 
       @Bean
-      public RouteBuilder testRoutes() {
+      public RouteBuilder fullfillmentABCRoutes() {
          return new RouteBuilder() {
             @Override
             public void configure() throws Exception {

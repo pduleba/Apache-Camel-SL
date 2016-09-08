@@ -13,7 +13,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.Namespaces;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.apache.camel.component.mock.MockEndpoint;
-import org.apache.camel.spring.javaconfig.SingleRouteCamelConfiguration;
+import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
 import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.junit.After;
@@ -121,7 +121,7 @@ public class ConsumeFulfillmentABCOrderRouteTest {
    }
 
    @Configuration
-   public static class TestConfig extends SingleRouteCamelConfiguration {
+   public static class TestConfig extends CamelConfiguration {
       @Bean(name = FulfillmentABCProcessor.BEAN_NAME)
       public FulfillmentABCProcessor aBCFulfillmentProcessor() {
          return new FulfillmentABCProcessor();
@@ -156,8 +156,7 @@ public class ConsumeFulfillmentABCOrderRouteTest {
       }
 
       @Bean
-      @Override
-      public RouteBuilder route() {
+      public RouteBuilder fullfillmentABCRoutes() {
          return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
