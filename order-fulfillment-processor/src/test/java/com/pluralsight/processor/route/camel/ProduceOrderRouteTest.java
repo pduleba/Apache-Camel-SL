@@ -5,6 +5,7 @@ import static com.pluralsight.processor.generated.FulfillmentCenter.FULFILLMENT_
 
 import org.apache.camel.EndpointInject;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
 import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.junit.After;
 import org.junit.Before;
@@ -13,8 +14,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
-
-import com.pluralsight.processor.ApplicationConfig;
 
 /**
  * Note, this test requires Apache ActiveMQ to be started. The test will send
@@ -26,9 +25,11 @@ import com.pluralsight.processor.ApplicationConfig;
  * @author Michael Hoffman, Pluralsight.com
  *
  */
-@ActiveProfiles("test")
 @RunWith(CamelSpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ApplicationConfig.class})
+@ActiveProfiles("test")
+@ContextConfiguration(
+      classes = { ConsumeFulfillmentCenterOneOrderRouteTest.TestConfig.class },
+      loader = CamelSpringDelegatingTestContextLoader.class)
 @WebAppConfiguration
 public class ProduceOrderRouteTest {
 
