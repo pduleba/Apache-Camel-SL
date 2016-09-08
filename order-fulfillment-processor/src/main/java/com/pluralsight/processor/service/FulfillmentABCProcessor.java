@@ -38,7 +38,7 @@ public class FulfillmentABCProcessor {
     * @return
     * @throws Exception
     */
-   public List<Map<String, Object>> processAggregate(List orders)
+   public List<Map<String, Object>> processAggregate(List<String> orders)
          throws Exception {
       log.info("Processing the aggregate");
       List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
