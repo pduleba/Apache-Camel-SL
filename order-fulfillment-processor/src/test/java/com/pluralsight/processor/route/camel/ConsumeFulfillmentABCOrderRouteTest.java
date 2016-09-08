@@ -187,7 +187,7 @@ public class ConsumeFulfillmentABCOrderRouteTest {
                      .csv()
                      .to("file://C://Users//pduleba//Desktop//out?fileName=abcfc-"
                            + dateString + ".csv")
-                     .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv")) // for Apache Component File
+//                     .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv")) // for Apache Component FTP
 //                     .to("sftp://localhost:22?username=test&password=test")
                      .to("mock:direct:result");
             }
