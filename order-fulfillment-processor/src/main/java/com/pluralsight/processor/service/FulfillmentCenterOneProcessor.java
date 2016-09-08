@@ -9,7 +9,6 @@ import javax.xml.bind.Unmarshaller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import com.google.gson.Gson;
 import com.pluralsight.processor.dto.ServiceOrder;
@@ -27,12 +26,11 @@ import com.pluralsight.processor.generated.OrderType;
  * @author Michael Hoffman, Pluralsight
  *
  */
-@Component
 public class FulfillmentCenterOneProcessor {
 
    private static final Logger log = LoggerFactory
          .getLogger(FulfillmentCenterOneProcessor.class);
-
+   
    /**
     * Accepts the order XML from the route exchange's inbound message body and
     * then converts it to JSON format.

@@ -41,9 +41,11 @@ import com.pluralsight.processor.service.FulfillmentCenterOneProcessor;
  */
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ActiveProfiles("test")
-@ContextConfiguration(classes = { ConsumeOrderRouteTest.TestConfig.class }, loader = CamelSpringDelegatingTestContextLoader.class)
+@ContextConfiguration(
+	      classes = { ConsumeFulfillmentABCOrderRouteTest.TestConfig.class },
+	      loader = CamelSpringDelegatingTestContextLoader.class)
 @WebAppConfiguration
-public class ConsumeOrderRouteTest {
+public class ConsumeFulfillmentCenterOneOrderRouteTest {
 
    @org.apache.camel.Produce(uri = "direct:test")
    protected ProducerTemplate testProducer;
