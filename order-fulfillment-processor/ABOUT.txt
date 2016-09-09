@@ -1,0 +1,10 @@
+This project logic overview can be found in Quick Overview.png
+To make it works it requires (up and running) :
+1. Active MQ server (JMS)
+2. fulfillmentcenterone-service (JAX-RS Service)
+3. FileZilla or any other FTP Server (for FTP Component)
+4. Access to directory specified in ConsumeFulfillmentABCOrderRouteTest.fullfillmentABCRoutes()
+
+Known Problems:
+In case of runnig all Junit Test, ConsumeFulfillmentCenterOneOrderRouteTest is failling,
+but single run of this test works well. I don't know why at the moment - FIX THIS

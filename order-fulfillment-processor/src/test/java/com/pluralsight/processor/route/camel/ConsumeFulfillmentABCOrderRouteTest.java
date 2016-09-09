@@ -99,7 +99,8 @@ public class ConsumeFulfillmentABCOrderRouteTest {
                + "<Price>22.00000</Price>" + "<Quantity>1</Quantity>"
                + "</OrderItems>" + "</OrderType>" + "</Order>";
 
-   public static String fulfillmentCenterMessage4 =
+   // This message is for error handling purpose
+   public static String invalidMessage =
          "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
                + "<Order xmlns=\"http://www.pluralsight.com/orderfulfillment/Order\">"
                + "<OrderType>"
@@ -168,6 +169,7 @@ public class ConsumeFulfillmentABCOrderRouteTest {
                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd-hhmmss");
                String dateString = sdf.format(new Date(System.currentTimeMillis()));
 
+               // Error handling specific logic
                onException(CamelExchangeException.class).to(
                      "activemq:queue:ABC_FULFILLMENT_ERROR");
 
@@ -181,7 +183,8 @@ public class ConsumeFulfillmentABCOrderRouteTest {
                            "//*[contains(text(), '"
                                  + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value()
                                  + "')]", String.class, namespace)
-                     .ignoreInvalidCorrelationKeys().completionInterval(3000)
+//                     .ignoreInvalidCorrelationKeys() // IMPORTANT :: this causes to ignore invalid message aggregation processing
+                     .completionInterval(3000)
                      .beanRef(FulfillmentABCProcessor.BEAN_NAME, "processAggregate")
                      .marshal() // marshal to CSV format
                      .csv()
@@ -206,7 +209,7 @@ public class ConsumeFulfillmentABCOrderRouteTest {
       testProducer.sendBody(fulfillmentCenterMessage1);
       testProducer.sendBody(fulfillmentCenterMessage2);
       testProducer.sendBody(fulfillmentCenterMessage3);
-      testProducer.sendBody(fulfillmentCenterMessage4);
+      testProducer.sendBody(invalidMessage);
       // 2 - Wait until aggregation is complete.
       Thread.sleep(6000);
       // 3 - Print out the results to manually verify the aggregated message.
