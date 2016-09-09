@@ -181,14 +181,14 @@ public class ConsumeFulfillmentABCOrderRouteTest {
                            "//*[contains(text(), '"
                                  + FulfillmentCenter.ABC_FULFILLMENT_CENTER.value()
                                  + "')]", String.class, namespace)
-                     .ignoreInvalidCorrelationKeys().completionInterval(10000)
+                     .ignoreInvalidCorrelationKeys().completionInterval(3000)
                      .beanRef(FulfillmentABCProcessor.BEAN_NAME, "processAggregate")
                      .marshal() // marshal to CSV format
                      .csv()
                      .to("file://C://Users//pduleba//Desktop//out?fileName=abcfc-"
                            + dateString + ".csv")
-//                     .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv")) // for Apache Component FTP
-//                     .to("sftp://localhost:22?username=test&password=test")
+                     .setHeader("CamelFileName", constant("abcfc-" + dateString + ".csv")) // for Apache Component FTP
+                     .to("ftp://pgs033/?username=test&password=test")
                      .to("mock:direct:result");
             }
          };
@@ -208,7 +208,7 @@ public class ConsumeFulfillmentABCOrderRouteTest {
       testProducer.sendBody(fulfillmentCenterMessage3);
       testProducer.sendBody(fulfillmentCenterMessage4);
       // 2 - Wait until aggregation is complete.
-      Thread.sleep(20000);
+      Thread.sleep(6000);
       // 3 - Print out the results to manually verify the aggregated message.
       System.err.println(resultEndpoint.getExchanges().size());
    }
