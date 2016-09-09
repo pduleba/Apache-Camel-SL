@@ -4,6 +4,7 @@ To make it works it requires (up and running) :
 2. fulfillmentcenterone-service (JAX-RS Service)
 3. FileZilla or any other FTP Server (for FTP Component)
 4. Access to directory specified in ConsumeFulfillmentABCOrderRouteTest.fullfillmentABCRoutes()
+5. Access to directory specified in log4j.properties files (for main and test)
 
 Known Problems:
 In case of runnig all Junit Test, ConsumeFulfillmentCenterOneOrderRouteTest is failling,
