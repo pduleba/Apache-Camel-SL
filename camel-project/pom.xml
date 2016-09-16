@@ -4,7 +4,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-	<packaging>war</packaging>	
+	<packaging>jar</packaging>	
 	<groupId>com.pduleba.camel</groupId>
 	<artifactId>camel-project</artifactId>
 	<version>1.0-SNAPSHOT</version>
@@ -16,6 +16,11 @@
 
     <dependencies>
 		<!-- Apache Camel  -->
+    	<dependency>
+    		<groupId>org.apache.camel</groupId>
+    		<artifactId>camel-spring</artifactId>
+			<version>${camel.version}</version>
+    	</dependency>
     	<dependency>
     		<groupId>org.apache.camel</groupId>
     		<artifactId>camel-spring-javaconfig</artifactId>
@@ -132,34 +137,40 @@
     </dependencies>
 
     <build>
+		<finalName>ofp</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.5.1</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
 			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
+                <groupId>org.apache.camel</groupId>
+                <artifactId>camel-maven-plugin</artifactId>
+                <version>${camel.version}</version>
 				<configuration>
-					<useProjectReferences>false</useProjectReferences>
-					<downloadSources>true</downloadSources>
-					<downloadJavadocs>true</downloadJavadocs>
-					<wtpversion>2.0</wtpversion>
+				    <basedPackages>com.pduleba.config</basedPackages>
+				    <!--
+				    <configClasses>org.apache.camel.example.spring.javaconfig.MyRouteConfig</configClasses>
+				        You could set the base package directory and let spring to find
+				        the config classes for you
+				        <basedPackages>com.pduleba.config</basedPackages>
+				      -->
 				</configuration>
-			</plugin>
+        	</plugin>
 		</plugins>
-		<finalName>ofp</finalName>
     </build>
     
     <profiles>
