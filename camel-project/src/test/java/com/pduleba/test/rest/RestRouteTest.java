@@ -22,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.pduleba.config.ApplicationConfig;
@@ -47,23 +46,16 @@ public class RestRouteTest {
 	@Autowired
 	private ModelCamelContext context;
 	
-	@Value("${use.jackson.provider}") 
-	boolean useJacksonProvider;
-	
 	private DeveloperRequest request;
 	private Object requestJson;
 	
 	@Before
 	public void before() throws Exception {
 		this.request = DeveloperRequest.getRequest();
-		if (useJacksonProvider) {
-			this.requestJson = jsonService.serializeByJacksonProvider(request, DeveloperRequest.class);
-		} else {
-			this.requestJson = jsonService.serializeByDefaultProvider(request, DeveloperRequest.class);
-		}
+		this.requestJson = jsonService.serializeByJacksonProvider(request, DeveloperRequest.class);
 		
 		final String MOCK_ENDPOINT_ID = "mock:result";
-		context.getRouteDefinition(CamelConfig.CXFRS_ROUTE_ID).adviceWith(
+		context.getRouteDefinition(CamelConfig.ROUTE_JAXRS_ID).adviceWith(
 				context, new AdviceWithRouteBuilder() {
 					@Override
 					public void configure() throws Exception {

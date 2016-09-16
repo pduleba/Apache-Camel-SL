@@ -7,6 +7,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.util.Assert;
 
 import com.pduleba.config.ApplicationConfig;
+import com.pduleba.config.CamelConfig;
 
 public class Server {
 
@@ -23,7 +24,7 @@ public class Server {
 	}
 
 	private static void initialize(ConfigurableApplicationContext ctx) {
-		serviceServerFactory = ctx.getBean(ApplicationConfig.REST_BEAN_ID, JAXRSServerFactoryBean.class);
+		serviceServerFactory = ctx.getBean(CamelConfig.JAXRS_BEAN_ID, JAXRSServerFactoryBean.class);
 		Assert.notNull(serviceServerFactory, "ServiceFactory must not be null");
 	}
 

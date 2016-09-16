@@ -12,8 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import com.google.gson.Gson;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -28,10 +26,6 @@ public class DeveloperRequest {
 	private Date birth;
 	private BigDecimal salary;
 	private List<String> skills;
-
-	public static void main(String[] args) {
-		System.err.println(new Gson().toJson(getRequest()));
-	}
 
 	public static DeveloperRequest getRequest() {
 		return new DeveloperRequest("Mike", "Johnson", 45, DATE_2000_01_01,
