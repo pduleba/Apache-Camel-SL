@@ -76,7 +76,7 @@ public class JSonTest {
     @Test
     public void testResolveDataFormat() throws Exception {
     	// Given
-    	String camelJacksonBeanId = CamelConfig.DATA_FORMAT_BEAN_ID;
+    	String camelJacksonBeanId = CamelConfig.DATA_FORMAT_JSON_BEAN_ID;
 
         // When
     	DataFormat camelJackson = jsonService.resolveDataFormat(camelJacksonBeanId);

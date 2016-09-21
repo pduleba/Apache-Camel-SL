@@ -23,17 +23,17 @@ public class JsonService {
 	
 	@Getter private JacksonDataFormat jackson;
 
-	private JacksonJsonProvider jacksonProvider;
+	private JacksonJsonProvider jsonProvider;
 
 	private CamelContext camelContext;
 	private DataFormatResolver dataFormatResolver;
 
 	public JsonService(JacksonDataFormat jackson,
-			JacksonJsonProvider jacksonProvider,
+			JacksonJsonProvider jsonProvider,
 			CamelContext camelContext) {
 		super();
 		this.jackson = jackson;
-		this.jacksonProvider = jacksonProvider;
+		this.jsonProvider = jsonProvider;
 		this.camelContext = camelContext;
 		this.dataFormatResolver = camelContext.getDataFormatResolver();
 	}
@@ -41,7 +41,7 @@ public class JsonService {
 
 	public <T> String serializeByJacksonProvider(T in, Class<T> clazz) {
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-			jacksonProvider.writeTo(in, clazz, clazz, clazz.getAnnotations(),
+			jsonProvider.writeTo(in, clazz, clazz, clazz.getAnnotations(),
 		            MediaType.APPLICATION_JSON_TYPE, null, out);
 			
 			return out.toString();

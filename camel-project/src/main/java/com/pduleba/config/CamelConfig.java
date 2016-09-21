@@ -13,7 +13,6 @@ import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -33,8 +32,8 @@ public class CamelConfig extends CamelConfiguration {
 	
 	// Camel Default Bean Formatters IDS hidden AFAIK 
 	// org.apache.camel.model.dataformat.JsonDataFormat.createDataFormat(RouteContext)
-	public static final String DATA_FORMAT_BEAN_ID = "json-jackson"; // TRICK : Apache Camel Bean Id
-	public static final String DATA_PROVIDER_BEAN_ID = "jackson-cxf-provider"; 
+	public static final String DATA_FORMAT_JSON_BEAN_ID = "json-jackson"; // TRICK : Apache Camel Bean Id
+	public static final String DATA_PROVIDER_JSON_BEAN_ID = "jsonProvider"; 
 
 	public static final String JAXRS_BEAN_ID = "rsServer";
 	public static final String CXFRS_ENDPOINT_ID = MessageFormat.format("cxfrs:bean:{0}", JAXRS_BEAN_ID);
@@ -63,24 +62,24 @@ public class CamelConfig extends CamelConfiguration {
 		return objectMapper;
 	}
 	
-	@Bean(name = DATA_FORMAT_BEAN_ID) 
-	public JacksonDataFormat jackson(@Qualifier(JACKSON_OBJECT_MAPPER) ObjectMapper objectMapper) {
+	@Bean(name = DATA_FORMAT_JSON_BEAN_ID) 
+	public JacksonDataFormat jsonDataFormat(@Qualifier(JACKSON_OBJECT_MAPPER) ObjectMapper objectMapper) {
 	    return new JacksonDataFormat(objectMapper, DeveloperRequest.class);
 	}
 	
-	@Bean(name = DATA_PROVIDER_BEAN_ID)
+	@Bean(name = DATA_PROVIDER_JSON_BEAN_ID)
 	public JacksonJsonProvider jsonProvider(@Qualifier(JACKSON_OBJECT_MAPPER) ObjectMapper objectMapper) {
 		return new JacksonJsonProvider(objectMapper);
 	}
 
 	@Bean(name = ROUTE_JAXRS)
-	public RouteBuilder jaxrsRoute(@Value("${camel.performInvocation}") boolean performInvocation) {
+	public RouteBuilder jaxrsRoute() {
 		return new RouteBuilder() {
 
 			@Override
 			public void configure() throws Exception {
 				from(CXFRS_ENDPOINT_ID).routeId(ROUTE_JAXRS_ID)
-						.log("BODY BEFORE PROCESSING = ${body}")
+						.log("BEFORE :: ${body}")
 						.process(new Processor() {
 
 							@Override
@@ -93,7 +92,7 @@ public class CamelConfig extends CamelConfiguration {
 														"Successful processor result!"));
 							}
 						})
-				.log("BODY AFTER PROCESSING = ${body}");
+				.log("AFTER :: ${body}");
 			}
 		};
 	}
