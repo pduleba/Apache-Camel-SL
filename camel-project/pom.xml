@@ -6,13 +6,13 @@
 
 	<groupId>com.pduleba.camel</groupId>
 	<artifactId>camel-project</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>3.0</version>
 	<packaging>bundle</packaging>	
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding><!-- For maven-resources-plugin & maven-compiler-plugin -->
+		<maven.compiler.source>1.7</maven.compiler.source><!-- For maven-compiler-plugin -->
+		<maven.compiler.target>1.7</maven.compiler.target><!-- For maven-compiler-plugin -->
 
 		<!-- Project -->
 		<camel.version>2.12.0.redhat-611412</camel.version>

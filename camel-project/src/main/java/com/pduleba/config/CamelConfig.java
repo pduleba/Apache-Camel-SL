@@ -8,7 +8,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
-import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,21 +35,16 @@ public class CamelConfig extends CamelConfiguration {
 	public static final String DATA_PROVIDER_JSON_BEAN_ID = "jsonProvider"; 
 
 	public static final String JAXRS_BEAN_ID = "rsServer";
-	public static final String CXFRS_ENDPOINT_ID = MessageFormat.format("cxfrs:bean:{0}", JAXRS_BEAN_ID);
+	public static final String CXFRS_ENDPOINT_ID = MessageFormat.format("cxfrs:bean:{0}?bindingStyle=SimpleConsumer", JAXRS_BEAN_ID);
 
 	public static final String ROUTE_JAXRS_ID = "jaxrs-route"; 
 	public static final String ROUTE_JAXRS = "jaxrsRoute"; 
-	public static final String ROUTE_JSON = "jsonRoute"; 
 	
 	public static final String JACKSON_OBJECT_MAPPER = "jacksonObjectMapper"; 
 	
 	@Autowired
 	@Qualifier(ROUTE_JAXRS)
 	private RouteBuilder jaxrsRoute;
-	
-	@Autowired
-	@Qualifier(ROUTE_JSON)
-	private RouteBuilder jsonRoute;
 
 	@Bean(name = JACKSON_OBJECT_MAPPER) 
 	public ObjectMapper jacksonObjectMapper() {
@@ -79,13 +73,14 @@ public class CamelConfig extends CamelConfiguration {
 			@Override
 			public void configure() throws Exception {
 				from(CXFRS_ENDPOINT_ID).routeId(ROUTE_JAXRS_ID)
+						.log("-----------------")
 						.log("BEFORE :: ${body}")
 						.process(new Processor() {
 
 							@Override
 							public void process(Exchange exchange)
 									throws Exception {
-								LOG.info("Executing route processor logic");
+								LOG.info("logic");
 								exchange.getOut()
 										.setBody(
 												new DeveloperResponse(200,
@@ -97,22 +92,11 @@ public class CamelConfig extends CamelConfiguration {
 		};
 	}
 	
-	@Bean(name = ROUTE_JSON)
-	public RouteBuilder jsonRoute() {
-		return new RouteBuilder() {
-
-			@Override
-			public void configure() throws Exception {
-				// should use bean by id CamelConfig.JACKSON_OBJECT_MAPPER
-				from("direct:toJson_ByDefaultJackson").marshal().json(JsonLibrary.Jackson);
-				from("direct:toPojo_ByDefaultJackson").unmarshal().json(JsonLibrary.Jackson);
-			}
-		};
-	}
+	
 
 	@Override
 	public List<RouteBuilder> routes() {
-		return Arrays.asList(jaxrsRoute, jsonRoute);
+		return Arrays.asList(jaxrsRoute);
 	}
 	
 }
