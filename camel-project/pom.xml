@@ -6,7 +6,7 @@
 
 	<groupId>com.pduleba.camel</groupId>
 	<artifactId>camel-project</artifactId>
-	<version>5.0</version>
+	<version>7.0</version>
 	<packaging>bundle</packaging>	
 
 	<properties>
@@ -17,11 +17,11 @@
 		<!-- Project -->
 		<camel.version>2.12.0.redhat-611412</camel.version>
 		<cxf.version>2.7.0.redhat-611412</cxf.version>
-		<jackson.version>2.2.1</jackson.version><!-- found 2.3.1 on JBoss Fuse -->
-		<spring.version>3.2.9.RELEASE</spring.version><!-- 3.2.8.RELEASE_1 -->
+		<spring.version>3.2.9.RELEASE</spring.version>
+		<jackson.version>1.9.12</jackson.version>
 		<lombok.version>1.16.10</lombok.version>
-        <slf4j.version>1.7.10</slf4j.version>
-        <log4j.version>1.2.17</log4j.version>
+        <slf4j.version>1.7.2</slf4j.version>
+        <log4j.version>1.2.16</log4j.version>
         		
 		<!-- Maven -->
 		<maven-bundle-plugin.verson>2.3.4</maven-bundle-plugin.verson>
@@ -61,8 +61,8 @@
 		
 	    <!-- Jackson Provider -->
 		<dependency>
-			<groupId>com.fasterxml.jackson.jaxrs</groupId>
-			<artifactId>jackson-jaxrs-json-provider</artifactId>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-jaxrs</artifactId>
 			<version>${jackson.version}</version><!-- This version is used by Camel CXF -->
 		</dependency>
         

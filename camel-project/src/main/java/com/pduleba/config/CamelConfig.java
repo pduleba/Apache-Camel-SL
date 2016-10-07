@@ -10,6 +10,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jackson.JacksonDataFormat;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +20,6 @@ import org.springframework.context.annotation.PropertySource;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.pduleba.jaxrs.DeveloperRequest;
 import com.pduleba.jaxrs.DeveloperResponse;
 
@@ -62,8 +62,8 @@ public class CamelConfig extends CamelConfiguration {
 	}
 	
 	@Bean(name = DATA_PROVIDER_JSON_BEAN_ID)
-	public JacksonJsonProvider jsonProvider(@Qualifier(JACKSON_OBJECT_MAPPER) ObjectMapper objectMapper) {
-		return new JacksonJsonProvider(objectMapper);
+	public JacksonJsonProvider jsonProvider() {
+		return new JacksonJsonProvider();
 	}
 
 	@Bean(name = ROUTE_JAXRS)

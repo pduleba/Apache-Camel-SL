@@ -3,12 +3,10 @@ package com.pduleba.test.rest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.camel.Exchange;
@@ -25,9 +23,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pduleba.config.ApplicationConfig;
 import com.pduleba.config.CamelConfig;
 import com.pduleba.jaxrs.DeveloperRequest;
@@ -48,8 +48,8 @@ public class RestRouteTest {
 	
 	@Autowired
 	private ModelCamelContext context;
-	@Autowired
-	private JacksonJsonProvider jsonProvider;
+	@Autowired @Qualifier(CamelConfig.JACKSON_OBJECT_MAPPER) 
+	private ObjectMapper objectMapper;
 	
 	private DeveloperRequest request;
 	private Object requestJson;
@@ -57,7 +57,7 @@ public class RestRouteTest {
 	@Before
 	public void before() throws Exception {
 		this.request = DeveloperRequest.getRequest();
-		this.requestJson = serializeByJacksonProvider(request, DeveloperRequest.class);
+		this.requestJson = serialize(request);
 		
 		final String MOCK_ENDPOINT_ID = "mock:result";
 		context.getRouteDefinition(CamelConfig.ROUTE_JAXRS_ID).adviceWith(
@@ -88,17 +88,13 @@ public class RestRouteTest {
 		assertEquals(200, response.getResponseCode());
 	}
 
-	public <T> String serializeByJacksonProvider(T in, Class<T> clazz) {
-		try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
-			jsonProvider.writeTo(in, clazz, clazz, clazz.getAnnotations(),
-		            MediaType.APPLICATION_JSON_TYPE, null, out);
-			
-			return out.toString();
-		} catch (WebApplicationException | IOException e) {
+	public <T> String serialize(T in) {
+		try {
+			return objectMapper.writeValueAsString(in);
+		} catch (JsonProcessingException e) {
 			LOG.error("Unable to serialize", e);
+			return null;
 		}
-		
-		return null;
 	}
 	
 	private Map<String, Object> getHeaders() {

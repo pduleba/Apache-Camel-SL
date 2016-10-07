@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.codehaus.jackson.jaxrs.JacksonJsonProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,6 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.pduleba.jaxrs.CompanyResource;
 
 @Configuration
