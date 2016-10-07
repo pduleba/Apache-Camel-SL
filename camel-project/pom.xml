@@ -6,7 +6,7 @@
 
 	<groupId>com.pduleba.camel</groupId>
 	<artifactId>camel-project</artifactId>
-	<version>3.0</version>
+	<version>5.0</version>
 	<packaging>bundle</packaging>	
 
 	<properties>
@@ -17,7 +17,6 @@
 		<!-- Project -->
 		<camel.version>2.12.0.redhat-611412</camel.version>
 		<cxf.version>2.7.0.redhat-611412</cxf.version>
-		<mockito.version>1.9.5</mockito.version>
 		<jackson.version>2.2.1</jackson.version><!-- found 2.3.1 on JBoss Fuse -->
 		<spring.version>3.2.9.RELEASE</spring.version><!-- 3.2.8.RELEASE_1 -->
 		<lombok.version>1.16.10</lombok.version>
@@ -98,19 +97,6 @@
 			<version>${camel.version}</version>
     		<scope>test</scope>
     	</dependency>
-        <dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<version>${mockito.version}</version>
-			<scope>test</scope>
-		</dependency>
-
     </dependencies>
 
     <build>
