@@ -38,7 +38,8 @@ public class ApplicationConfig {
 
 		factory.setBus(cxf);
 		factory.setServiceBeans(Arrays.<Object> asList(new CompanyResource()));
-		factory.setAddress("http://localhost:9000/api");
+		factory.setAddress("/api");
+//		factory.setAddress("http://localhost:9000/api");
 		factory.setProviders(Arrays.<Object> asList(jsonProvider));
 
 		return factory;
