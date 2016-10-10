@@ -26,7 +26,7 @@
     </bean>
 
     <!-- Defined the client endpoint to create the cxf-rs consumer -->
-    <cxf:rsServer id="jaxrsServer" address="http://localhost:9000/rest/api"
+    <cxf:rsServer id="jaxrsServer" address="/"
                   loggingFeatureEnabled="true" skipFaultLogging="true">
         <cxf:providers>
             <ref bean="jsonProvider"/>
