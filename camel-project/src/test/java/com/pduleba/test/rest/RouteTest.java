@@ -42,7 +42,7 @@ public class RouteTest {
 
 	private MockEndpoint result;
 
-	@Produce(uri = "http4://localhost:9000/api/company/save")
+	@Produce(uri = "http4://localhost:9000/rest/api/company/save")
 	private ProducerTemplate browser;
 	
 	@Autowired
