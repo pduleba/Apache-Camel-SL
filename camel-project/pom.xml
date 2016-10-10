@@ -35,28 +35,32 @@
     		<groupId>org.apache.camel</groupId>
     		<artifactId>camel-spring-javaconfig</artifactId>
 			<version>${camel.version}</version>
+            <scope>provided</scope>
     	</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-http4</artifactId>
 			<version>${camel.version}</version>
+            <scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-cxf</artifactId>
 			<version>${camel.version}</version>
+            <scope>provided</scope>
 		</dependency>
-		<dependency>
+		<!-- dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jackson</artifactId>
 			<version>${camel.version}</version>
-		</dependency>
+		</dependency-->
 		
 		<!-- Apache CXF -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
             <version>${cxf.version}</version>
+            <scope>provided</scope>
         </dependency>
 		
 	    <!-- Jackson Provider -->
@@ -71,6 +75,7 @@
 		    <groupId>org.projectlombok</groupId>
 		    <artifactId>lombok</artifactId>
 		    <version>${lombok.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<!-- LOGGING -->

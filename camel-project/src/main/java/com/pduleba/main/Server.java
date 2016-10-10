@@ -1,31 +1,30 @@
 package com.pduleba.main;
 
-import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
+import org.apache.camel.component.cxf.spring.SpringJAXRSServerFactoryBean;
 import org.apache.log4j.Logger;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.Assert;
 
-import com.pduleba.config.ApplicationConfig;
-import com.pduleba.config.CamelConfig;
+import com.pduleba.config.ApplicationCtx;
+import com.pduleba.jaxrs.CompanyService;
+import com.pduleba.route.JaxrsRouteBuilder;
 
 public class Server {
 
 	public static final Logger LOG = Logger.getLogger(Server.class);
 
-	private static JAXRSServerFactoryBean serviceServerFactory;
-
 	public static void main(String[] args) throws InterruptedException {
-		try (ConfigurableApplicationContext ctx = new AnnotationConfigApplicationContext(
-				ApplicationConfig.class)) {
+		try (ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("classpath:META-INF/spring/camel-context.xml")) {
 			initialize(ctx);
 			run();
 		}
 	}
 
 	private static void initialize(ConfigurableApplicationContext ctx) {
-		serviceServerFactory = ctx.getBean(CamelConfig.JAXRS_BEAN_ID, JAXRSServerFactoryBean.class);
-		Assert.notNull(serviceServerFactory, "ServiceFactory must not be null");
+		Assert.notNull(ctx.getBean(ApplicationCtx.JAXRS_SERVER_BEAN_ID, SpringJAXRSServerFactoryBean.class), "Server must not be null");
+		Assert.notNull(ctx.getBean(ApplicationCtx.JAXRS_SERVICE_BEAN_ID, CompanyService.class), "Service must not be null");
+		Assert.notNull(ctx.getBean(ApplicationCtx.JAXRS_ROUTE_BUILDER_ID, JaxrsRouteBuilder.class), "Route builder must not be null");
 	}
 
 	private static void run() throws InterruptedException {

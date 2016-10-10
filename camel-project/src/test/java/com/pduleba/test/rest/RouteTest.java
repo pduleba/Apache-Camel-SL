@@ -19,27 +19,26 @@ import org.apache.camel.model.ModelCamelContext;
 import org.apache.camel.test.spring.CamelSpringDelegatingTestContextLoader;
 import org.apache.camel.test.spring.CamelSpringJUnit4ClassRunner;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.util.Assert;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pduleba.config.ApplicationConfig;
-import com.pduleba.config.CamelConfig;
+import com.pduleba.config.ApplicationCtx;
 import com.pduleba.jaxrs.DeveloperRequest;
 import com.pduleba.jaxrs.DeveloperResponse;
 
 @RunWith(CamelSpringJUnit4ClassRunner.class)
 @ContextConfiguration(
-        classes = {ApplicationConfig.class},
+		value = "classpath:META-INF/spring/camel-context.xml",
         loader = CamelSpringDelegatingTestContextLoader.class)
-public class RestRouteTest {
+public class RouteTest {
 
-	public static final Logger LOG = Logger.getLogger(RestRouteTest.class);
+	public static final Logger LOG = Logger.getLogger(RouteTest.class);
 
 	private MockEndpoint result;
 
@@ -48,7 +47,7 @@ public class RestRouteTest {
 	
 	@Autowired
 	private ModelCamelContext context;
-	@Autowired @Qualifier(CamelConfig.JACKSON_OBJECT_MAPPER) 
+	@Autowired @Qualifier(ApplicationCtx.JACKSON_OBJECT_MAPPER) 
 	private ObjectMapper objectMapper;
 	
 	private DeveloperRequest request;
@@ -59,8 +58,10 @@ public class RestRouteTest {
 		this.request = DeveloperRequest.getRequest();
 		this.requestJson = serialize(request);
 		
+		Assert.notNull(context);
+		
 		final String MOCK_ENDPOINT_ID = "mock:result";
-		context.getRouteDefinition(CamelConfig.ROUTE_JAXRS_ID).adviceWith(
+		context.getRouteDefinition(ApplicationCtx.JAXRS_ROUTE_ID).adviceWith(
 				context, new AdviceWithRouteBuilder() {
 					@Override
 					public void configure() throws Exception {
@@ -91,7 +92,7 @@ public class RestRouteTest {
 	public <T> String serialize(T in) {
 		try {
 			return objectMapper.writeValueAsString(in);
-		} catch (JsonProcessingException e) {
+		} catch (IOException e) {
 			LOG.error("Unable to serialize", e);
 			return null;
 		}

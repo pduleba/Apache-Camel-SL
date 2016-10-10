@@ -7,11 +7,15 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import com.pduleba.config.ApplicationCtx;
 
 @Path("/company")
-public class CompanyResource {
+@Service(ApplicationCtx.JAXRS_SERVICE_BEAN_ID)
+public class CompanyService {
 
-	private static final Logger LOG = Logger.getLogger(CompanyResource.class);
+	private static final Logger LOG = Logger.getLogger(CompanyService.class);
 
 	@POST
 	@Path("/save")

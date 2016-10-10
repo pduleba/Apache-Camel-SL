@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Configures the Camel Context-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xmlns:ctx="http://www.springframework.org/schema/context"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        ">
+
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <ctx:component-scan base-package="com.pduleba"/>
+    
+    <bean id="properties" class="org.apache.camel.component.properties.PropertiesComponent">
+        <property name="locations">
+            <list>
+                <value>classpath:application.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Defined the client endpoint to create the cxf-rs consumer -->
+    <cxf:rsServer id="jaxrsServer" address="http://localhost:9090/rest"
+                  loggingFeatureEnabled="true" skipFaultLogging="true">
+        <cxf:providers>
+            <ref bean="jsonProvider"/>
+        </cxf:providers>
+        <cxf:serviceBeans>
+            <ref bean="developerService"/>
+        </cxf:serviceBeans>
+        <cxf:features>
+            <bean class="org.apache.cxf.feature.LoggingFeature" />
+        </cxf:features>
+    </cxf:rsServer>
+
+    <camelContext id="camelContext" xmlns="http://camel.apache.org/schema/spring">
+    	<routeBuilder ref="jaxrsRouteBuilder"/>
+    </camelContext>
+
+</beans>
